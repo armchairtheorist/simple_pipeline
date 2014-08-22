@@ -1,5 +1,2 @@
+require "simple_pipeline/pipe"
 require "simple_pipeline/version"
-
-module SimplePipeline
-  # Your code goes here...
-end
