@@ -1,12 +1,12 @@
-require 'simple_pipeline/version'
+require File.expand_path("../lib/simple_pipeline/version", __FILE__)
 
 Gem::Specification.new do |spec|
   spec.name          = "simple_pipeline"
   spec.version       = SimplePipeline::VERSION
   spec.authors       = ["Jonathan Wong"]
   spec.email         = ["jonathan@armchairtheorist.com"]
-  spec.summary       = "Test"
-  spec.description   = "Test"
+  spec.summary       = "Summary"
+  spec.description   = "Description"
   spec.homepage      = "http://github.com/armchairtheorist/simple_pipeline"
   spec.license       = "MIT"
 

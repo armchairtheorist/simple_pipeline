@@ -6,37 +6,37 @@ module SimplePipeline
 
 		def initialize (options = {})
 			@options = DEFAULT_OPTIONS.merge(options)
-			@steps = {}
-			@step_order = []
+			@blocks = {}
+			@block_order = []
 		end
 
-		def add (step, label = nil)
+		def add (block, block_id = nil)
 			begin
-				raise ArgumentError, "incorrect number of arguments for process (payload) method on step" unless step.class.instance_method(:process).arity == 1
+				raise ArgumentError, "invalid block - incorrect number of arguments for process() method (should be 1)" unless block.class.instance_method(:process).arity == 1
 			rescue NameError
-				raise ArgumentError, "process (payload) method not found on step"
+				raise ArgumentError, "invalid block - process() method not found"
 			end
 
-			step_label = nil
+			id = block_id.nil? ? block.class.to_s : block_id.to_s
+			raise ArgumentError, "block id '#{id}' already used" if @blocks.has_key?(id)
 
-			if label.nil?
-				next_count = size + 1 
-				step_label = "#{step.class.to_s}_#{next_count}"
-			else
-				step_label = label.to_s
-				raise ArgumentError, "step label '#{step_label}' already used" if @steps.has_key?(step_label)
-			end
+			@blocks[id] = block
+			@block_order << id
 
-			@steps[step_label] = step
-			@step_order << step_label
-
-			return step_label
+			return id
 		end
 
 		def size
-			return @step_order.size
+			return @blocks_order.size
 		end
-		
+
+		def process (payload)
+			@block_order.each do |block_id|
+				@blocks[block_id].process(payload)
+			end
+		end
+
+		alias :length :size
 	end
 
 end
