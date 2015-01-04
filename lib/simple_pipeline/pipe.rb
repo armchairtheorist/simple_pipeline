@@ -6,33 +6,26 @@ module SimplePipeline
 
 		def initialize (options = {})
 			@options = DEFAULT_OPTIONS.merge(options)
-			@blocks = {}
-			@block_order = []
+			@sections = []
 		end
 
-		def add (block, block_id = nil)
+		def add (section)
 			begin
-				raise ArgumentError, "invalid block - incorrect number of arguments for process() method (should be 1)" unless block.class.instance_method(:process).arity == 1
+				raise ArgumentError, "invalid section - incorrect number of arguments for process() method (should be 1)" unless section.class.instance_method(:process).arity == 1
 			rescue NameError
-				raise ArgumentError, "invalid block - process() method not found"
+				raise ArgumentError, "invalid section - process() method not found"
 			end
 
-			id = block_id.nil? ? block.class.to_s : block_id.to_s
-			raise ArgumentError, "block id '#{id}' already used" if @blocks.has_key?(id)
-
-			@blocks[id] = block
-			@block_order << id
-
-			return id
+			@sections << section
 		end
 
 		def size
-			return @blocks_order.size
+			return @sections.size
 		end
 
 		def process (payload)
-			@block_order.each do |block_id|
-				@blocks[block_id].process(payload)
+			@sections.each do |section|
+				section.process(payload)
 			end
 		end
 
