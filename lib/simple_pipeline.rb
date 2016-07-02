@@ -1,13 +1,12 @@
+require "simple_pipeline/timeout"
 require "simple_pipeline/version"
 
 
 class SimplePipeline
 
-
 	def initialize
 		@pipes = []
 	end
-
 
 	def add (pipe)
 		begin
@@ -19,18 +18,20 @@ class SimplePipeline
 		@pipes << pipe
 	end
 
-
 	def size
 		return @pipes.size
 	end
 
-
 	def process (payload)
 		@pipes.each do |pipe|
-			pipe.process(payload)
+			if pipe.is_a? SimplePipeline::Timeout
+				pipe.process_with_timeout(payload)
+			else
+				pipe.process(payload)
+			end
 		end
 	end
 
-
 	alias :length :size
+
 end

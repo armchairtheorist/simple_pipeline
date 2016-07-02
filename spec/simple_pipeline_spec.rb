@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-
 class TestPipe
 	def process (payload)
 		payload[:test_value] *= 10
@@ -13,11 +12,21 @@ class BadPipe
 	end
 end
 
+class TimeoutPipe
+	include SimplePipeline::Timeout
+
+	def initialize
+		set_timeout 1 # seconds
+	end
+
+	def process (payload)
+		sleep 10 # seconds
+	end
+end
 
 describe SimplePipeline do
 	it "should support three normal pipes" do
 		pipeline = SimplePipeline.new
-		
 		pipeline.add TestPipe.new
 		pipeline.add TestPipe.new
 		pipeline.add TestPipe.new
@@ -42,4 +51,13 @@ describe SimplePipeline do
 		}.to raise_error(ArgumentError)
 	end
 
+	it "should support pipes with timeout" do
+		pipeline = SimplePipeline.new
+		pipe = TimeoutPipe.new
+		pipeline.add pipe
+
+		expect {
+			pipeline.process({})
+		}.to raise_error(Timeout::Error)
+	end
 end
