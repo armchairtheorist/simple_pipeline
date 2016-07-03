@@ -91,4 +91,4 @@ pipeline.add pipe2
 This will override the timeout value set by the class definition.
 
 ## License
-SimplePipeline is released under the [MIT license](MIT-LICENSE).
+**SimplePipeline** is released under the [MIT license](MIT-LICENSE).
