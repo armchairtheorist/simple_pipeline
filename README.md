@@ -36,7 +36,15 @@ pipeline.process payload
 
 ## Pipes
 
-A **pipe** can be any Ruby object that has a ```process``` method that accepts a single argument (the payload object).
+A **pipe** can be any Ruby object that has a ```process``` method that accepts a single argument (the payload object). For example:
+
+```ruby
+class Pipe1
+    def process (payload)
+        # Do something with the payload object
+    end
+end
+```
 
 ## Payload
 
