@@ -90,5 +90,9 @@ pipeline.add pipe2
 ```
 This will override the timeout value set by the class definition.
 
+## Related Projects
+
+* [PiecePipe](https://github.com/atomicobject/piece_pipe), an alternative implementation of the pipeline pattern.
+
 ## License
 **SimplePipeline** is released under the [MIT license](MIT-LICENSE).
