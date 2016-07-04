@@ -17,12 +17,6 @@ class SimplePipeline
             @timeout_in_sec = sec
         end
 
-        def process_with_timeout (payload)
-            ::Timeout::timeout(timeout) {
-                process(payload)
-            }
-        end
-
         def timeout
             @timeout_in_sec || self.class.class_variable_get(:@@timeout_in_sec)
         end
