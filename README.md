@@ -58,7 +58,8 @@ You can use the **SimplePipeline::Timeout** mixin to enforce a timeout value (in
 class TimeoutPipe
     include SimplePipeline::Timeout
 
-    set_timeout 3 # Set the timeout value to be three seconds
+    # Set the timeout value to be 3 seconds
+    set_timeout 3 
 
     def process (payload)
         # Do something
@@ -74,21 +75,48 @@ payload = {:some_key => some_value}
 pipeline.process payload
 ```
 
-You can also set the timeout value on a per instance basis.
+You can also set the timeout value on a per instance basis. This will override the timeout value set by the class definition.
 
 ```ruby
-pipeline = SimplePipeline.new
-
 pipe1 = TimeoutPipe.new
-pipe1.set_timeout 10
+pipe1.set_timeout 10 # seconds
 
 pipe2 = TimeoutPipe.new
-pipe2.set_timeout 60
+pipe2.set_timeout 60 # seconds
 
 pipeline.add pipe1
 pipeline.add pipe2
 ```
-This will override the timeout value set by the class definition.
+
+If you don't want to use the **SimplePipeline::Timeout** mixin for your pipe, you can still set a timeout by passing in a ```:timeout``` value when you are adding the pipe. If you do this, the param value will take precedence over any other timeout value set by the mixin.
+
+```ruby
+# Timeout value set to 10 seconds, even though SomePipe doesn't include SimplePipeline::Timeout
+pipeline.add SomePipe.new, :timeout => 10 
+
+# Timeout value set to 10 seconds, even though TimeoutPipe defaults to a timeout of 3 seconds
+pipeline.add TimeoutPipe.new, :timeout => 10 
+```
+
+## Exception Handling
+
+By default, execution of the entire pipeline will halt if any of the pipes raise a ```StandardError```. However, this can be overriden using the ```:continue_on_error?``` parameter.
+
+```ruby
+# Pipeline continues executing if any kind of StandardError is encountered
+pipeline.add pipe, :continue_on_error? => true
+
+# Pipeline continues executing if NameError or subclass (e.g. NoMethodError) is encountered
+pipeline.add pipe, :continue_on_error? => NameError
+
+# Pipeline continues executing on either ArgumentError or NameError (or subclass)
+pipeline.add pipe, :continue_on_error? => [ArgumentError, NameError]
+
+# Pipeline continues executing if any kind of Exception is encountered - not recommended
+pipeline.add pipe, :continue_on_error? => Exception
+```
+
+After the pipeline finishes executing, you can call ```pipeline.errors``` to get an Array of errors that were caught during execution.
 
 ## Related Projects
 
