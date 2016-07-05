@@ -1,3 +1,5 @@
+[![Gem Version](https://badge.fury.io/rb/simple_pipeline.svg)](https://badge.fury.io/rb/simple_pipeline)
+
 # SimplePipeline
 
 **SimplePipeline** is a simple framework for sequentially executing a series of code components. Each code component takes a payload, modifies it, and moves it down the pipe for the next component and so forth. One of the design goals is to make it as flexible as possible, yet keep it simple.
