@@ -32,7 +32,7 @@ payload = {:some_key => some_value}
 pipeline.process payload
 ```
 
-**SimplePipeline** will call the ```process``` method on each of the pipes in the order that they were added to the pipeline.
+**SimplePipeline** will call the ```process``` method on each of the pipes in the order that they were added to the pipeline. As long as the pipes don't maintain state, you can call ```SimplePipeline#process``` as many times as you want, potentially with each run working with a different payload object.
 
 ## Pipes
 
@@ -134,10 +134,10 @@ pipeline.add pipe, :continue_on_error? => [ArgumentError, NameError]
 pipeline.add pipe, :continue_on_error? => Exception
 ```
 
-After the pipeline finishes executing, you can call ```SimplePipeline#errors``` to get an Array of errors that were caught during execution.
+After the pipeline finishes executing, you can call ```SimplePipeline#errors``` to get an Array of errors that were caught during execution. This Array will clear itself if the pipeline is run again.
 
 ```ruby
-pipeline.errors # => Array of errors caught
+pipeline.errors # => Array of errors caught during last run
 ```
 
 ## Related Projects
