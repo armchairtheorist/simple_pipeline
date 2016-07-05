@@ -12,15 +12,17 @@ class SimplePipeline
         @errors = []
     end
 
-    def add (pipe, args = {})
+    def add (pipe, params = {})
+        process_method = params[:process_method] || :process 
+
         begin
-            raise ArgumentError, "invalid pipe - incorrect number of arguments for process() method (should be 1)" unless pipe.class.instance_method(:process).arity == 1
+            raise ArgumentError, "invalid pipe - incorrect number of arguments for #{process_method}() method (should be 1)" unless pipe.class.instance_method(process_method).arity == 1
         rescue NameError
-            raise ArgumentError, "invalid pipe - process() method not found"
+            raise ArgumentError, "invalid pipe - #{process_method}() method not found"
         end
 
         @pipe_order << pipe
-        @pipe_config[pipe] = args
+        @pipe_config[pipe] = params
 
         return pipe
     end
@@ -32,19 +34,9 @@ class SimplePipeline
     def process (payload)
         @pipe_order.each do |pipe|
             begin
-                timeout = @pipe_config[pipe][:timeout]
-
-                if timeout.nil? && (pipe.is_a? SimplePipeline::Timeout)
-                    timeout = pipe.timeout
-                end
-
-                if timeout.nil?
-                    pipe.process(payload)
-                else
-                    process_with_timeout(pipe, payload, timeout)                    
-                end
+                invoke_process_with_timeout(pipe, payload, get_timeout(pipe))
             rescue
-                raise $! unless continue_on_error?($!, @pipe_config[pipe][:continue_on_error?])
+                raise $! unless continue_on_error?($!, pipe)
                 @errors << $!
             end
         end
@@ -54,7 +46,9 @@ class SimplePipeline
 
     private
 
-    def continue_on_error? (e, config_value)
+    def continue_on_error? (e, pipe)
+        config_value = @pipe_config[pipe][:continue_on_error?]
+
         return false if config_value.nil? || config_value == false
         return true if config_value == true
         
@@ -69,10 +63,19 @@ class SimplePipeline
         return false
     end
 
-
-    def process_with_timeout (pipe, payload, timeout)
+    def invoke_process_with_timeout (pipe, payload, timeout)
         ::Timeout::timeout(timeout) {
-            pipe.process(payload)
+            pipe.__send__(get_process_method(pipe), payload)
         }
+    end
+
+    def get_process_method (pipe)
+        @pipe_config[pipe][:process_method] || :process
+    end
+
+    def get_timeout (pipe)
+        timeout = @pipe_config[pipe][:timeout]
+        timeout = pipe.timeout if timeout.nil? && (pipe.is_a? SimplePipeline::Timeout)
+        return timeout 
     end
 end
