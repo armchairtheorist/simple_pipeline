@@ -167,9 +167,15 @@ After the pipeline finishes executing, you can call ```SimplePipeline#errors``` 
 pipeline.errors # => Array of errors caught during last run
 ```
 
-## Related Projects
+## Other Pipeline-Related Projects
 
-* [PiecePipe](https://github.com/atomicobject/piece_pipe), an alternative implementation of the pipeline pattern.
+* [PiecePipe](https://github.com/atomicobject/piece_pipe)
+* [Pipeline](https://github.com/dtsato/pipeline)
+* [Pipeliner](https://github.com/spox/pipeliner)
+* [Pipelines](https://github.com/sujoyg/pipelines)
+* [Linepipe](https://github.com/wimdu/linepipe)
+* [Banzai](https://github.com/dejan/banzai)
+* [CallChain](https://github.com/csquared/callchain)
 
 ## License
 **SimplePipeline** is released under the [MIT license](MIT-LICENSE).
