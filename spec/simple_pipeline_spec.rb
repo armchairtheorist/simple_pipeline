@@ -42,8 +42,8 @@ class ValidationPipe
     include SimplePipeline::Validation
 
     validate ->(payload) { payload[:must_exist] }
-    validate ->(payload) { payload[:must_be_false] == false }
     validate ->(payload) { payload[:a][:b] == 1 }
+    validate ->(payload) { payload[:must_be_false] == false }
 
     def process (payload)
         payload[:test_value] *= 10
@@ -149,7 +149,10 @@ describe SimplePipeline do
         pipeline = SimplePipeline.new
         pipeline.add ValidationPipe.new
 
-        payload = {:test_value => 10}
+        payload = {
+            :test_value => 10,
+            :must_exist => "it does"
+        }
 
         expect {
             pipeline.process(payload)
@@ -157,7 +160,7 @@ describe SimplePipeline do
 
         payload = {
             :test_value => 10,
-            :must_exist => "abc",
+            :must_exist => "it does",
             :must_be_false => false,
             :a => {:b => 1}
         }

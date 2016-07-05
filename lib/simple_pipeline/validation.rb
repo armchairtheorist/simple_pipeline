@@ -17,7 +17,11 @@ class SimplePipeline
 
         def validate (payload)
             self.class.class_variable_get(:@@validations).each do |validation_lambda|
-                raise SimplePipeline::Validation::Error.new "#{self.class} - #{payload}" unless validation_lambda.call(payload)
+                begin
+                    raise SimplePipeline::Validation::Error.new "#{self.class} - #{payload}" unless validation_lambda.call(payload)
+                rescue
+                    raise SimplePipeline::Validation::Error.new "#{self.class} - #{payload}"
+                end
             end
         end
     end
