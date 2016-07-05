@@ -1,4 +1,5 @@
 [![Gem Version](https://badge.fury.io/rb/simple_pipeline.svg)](https://badge.fury.io/rb/simple_pipeline)
+[![Code Climate](https://codeclimate.com/github/armchairtheorist/simple_pipeline/badges/gpa.svg)](https://codeclimate.com/github/armchairtheorist/simple_pipeline)
 
 # SimplePipeline
 
