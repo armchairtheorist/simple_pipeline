@@ -68,9 +68,34 @@ pipeline.add AlternativePipe.new, :process_method => :invoke # => throws Argumen
 
 The **payload** can be an Array, Hash, or any other Ruby object. Individual pipes have the responsibility to know what to do with the payload that is passed into the ```process``` method.
 
+**SimplePipeline** supports an easy way to validate the contents of the current payload prior to the execution of a pipe. You can use the ```SimplePipeline::Validation``` mixin and specify validation rules via lambdas, which will be checked prior to processing the pipe. If any of the validation rules fail (i.e. the lambda returns false or raises an error), a ```SimplePipeline::Validation::Error``` will be raised.
+
+```ruby
+class ValidatedPipe
+    include SimplePipeline::Validation
+
+    validate ->(x) { x[:a] }            # x[:a] must exist 
+    validate ->(x) { x[:b] == 1 }       # x[:b] must be equal to 1 
+    validate ->(x) { x[:c].nil? }       # x[:c] must not exist
+    validate ->(x) { x[:d][:e] < 5 }    # You can even do complex things like this
+
+    def process (payload)
+        # Do something
+    end
+end
+
+pipeline = SimplePipeline.new
+pipeline.add ValidatedPipe.new
+
+payload = {:a => some_value}
+
+# Will throw a SimplePipeline::Validation::Error because not all validation rules are satisfied
+pipeline.process payload
+```
+
 ## Timeout
 
-You can use the **SimplePipeline::Timeout** mixin to enforce a timeout value (in seconds) for a pipe. If the execution of the ```process``` method exceeds the specified timeout value, a ```Timeout::Error``` will be thrown.
+You can use the ```SimplePipeline::Timeout``` mixin to enforce a timeout value (in seconds) for a pipe. If the execution of the ```process``` method exceeds the specified timeout value, a ```Timeout::Error``` will be thrown.
 
 ```ruby
 class TimeoutPipe
