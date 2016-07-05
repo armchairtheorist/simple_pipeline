@@ -38,6 +38,18 @@ class ExceptionPipe
     end
 end
 
+class ValidationPipe
+    include SimplePipeline::Validation
+
+    validate ->(payload) { payload[:must_exist] }
+    validate ->(payload) { payload[:must_be_false] == false }
+    validate ->(payload) { payload[:a][:b] == 1 }
+
+    def process (payload)
+        payload[:test_value] *= 10
+    end
+end
+
 describe SimplePipeline do
     it "should support three normal pipes" do
         pipeline = SimplePipeline.new
@@ -130,6 +142,28 @@ describe SimplePipeline do
 
         pipeline.process(payload)
 
+        expect(payload[:test_value]).to eq 100
+    end
+
+    it "should support pipes with payload validation" do
+        pipeline = SimplePipeline.new
+        pipeline.add ValidationPipe.new
+
+        payload = {:test_value => 10}
+
+        expect {
+            pipeline.process(payload)
+        }.to raise_error(SimplePipeline::Validation::Error)
+
+        payload = {
+            :test_value => 10,
+            :must_exist => "abc",
+            :must_be_false => false,
+            :a => {:b => 1}
+        }
+
+        pipeline.process(payload)
+        
         expect(payload[:test_value]).to eq 100
     end
 end
