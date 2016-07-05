@@ -46,6 +46,24 @@ class Pipe1
 end
 ```
 
+If your object does not have a ```process``` method, you can still use it as a pipe, but you will need to explicitly state the method to invoke when adding the pipe to the pipeline. Likewise, the specified method must accept a single payload argument.
+
+```ruby
+class AlternatePipe
+    def execute (input)
+        # Do something with the input
+    end
+    
+    def invoke (param1, param2)
+        # Do something else
+    end
+end
+
+pipeline.add AlternativePipe.new, :process_method => :execute # => OK
+
+pipeline.add AlternativePipe.new, :process_method => :invoke # => throws ArgumentError
+```
+
 ## Payload
 
 The **payload** can be an Array, Hash, or any other Ruby object. Individual pipes have the responsibility to know what to do with the payload that is passed into the ```process``` method.
@@ -116,7 +134,11 @@ pipeline.add pipe, :continue_on_error? => [ArgumentError, NameError]
 pipeline.add pipe, :continue_on_error? => Exception
 ```
 
-After the pipeline finishes executing, you can call ```pipeline.errors``` to get an Array of errors that were caught during execution.
+After the pipeline finishes executing, you can call ```SimplePipeline#errors``` to get an Array of errors that were caught during execution.
+
+```ruby
+pipeline.errors # => Array of errors caught
+```
 
 ## Related Projects
 
