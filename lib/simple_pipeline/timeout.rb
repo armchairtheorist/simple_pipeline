@@ -1,5 +1,3 @@
-require 'timeout'
-
 class SimplePipeline
     module Timeout
         def self.included (base)
