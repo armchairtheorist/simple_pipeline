@@ -49,7 +49,7 @@ class Pipe1
 end
 ```
 
-If your object does not have a ```process``` method, you can still use it as a pipe, but you will need to explicitly state the method to invoke when adding the pipe to the pipeline. Likewise, the specified method must accept a single payload argument.
+If your object does not have a ```process``` method, you can still use it as a pipe, but you will need to explicitly state the method name using the ```:process_method``` option when adding the pipe to the pipeline. Likewise, the specified method must accept a single payload argument.
 
 ```ruby
 class AlternatePipe
@@ -134,7 +134,7 @@ pipeline.add pipe1
 pipeline.add pipe2
 ```
 
-If you don't want to use the **SimplePipeline::Timeout** mixin for your pipe, you can still set a timeout by passing in a ```:timeout``` value when you are adding the pipe. If you do this, the param value will take precedence over any other timeout value set by the mixin.
+If you don't want to use the **SimplePipeline::Timeout** mixin for your pipe, you can still set a timeout by passing in a ```:timeout``` option when you are adding the pipe. If you do this, the param value will take precedence over any other timeout value set by the mixin.
 
 ```ruby
 # Timeout value set to 10 seconds, even though SomePipe doesn't include SimplePipeline::Timeout
@@ -146,7 +146,7 @@ pipeline.add TimeoutPipe.new, :timeout => 10
 
 ## Exception Handling
 
-By default, execution of the entire pipeline will halt if any of the pipes raise a ```StandardError```. However, this can be overriden using the ```:continue_on_error?``` parameter.
+By default, execution of the entire pipeline will halt if any of the pipes raise a ```StandardError```. However, this can be overriden using the ```:continue_on_error?``` option.
 
 ```ruby
 # Pipeline continues executing if any kind of StandardError is encountered
