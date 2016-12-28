@@ -1,17 +1,17 @@
-require File.expand_path("../lib/simple_pipeline/version", __FILE__)
+require File.expand_path('../lib/simple_pipeline/version', __FILE__)
 
 Gem::Specification.new do |spec|
-  spec.name          = "simple_pipeline"
+  spec.name          = 'simple_pipeline'
   spec.version       = SimplePipeline::VERSION
-  spec.authors       = ["Jonathan Wong"]
-  spec.email         = ["jonathan@armchairtheorist.com"]
-  spec.summary       = "Simple implementation of a configurable processing pipeline for sequential execution of reusable code components."
-  spec.homepage      = "http://github.com/armchairtheorist/simple_pipeline"
-  spec.license       = "MIT"
+  spec.authors       = ['Jonathan Wong']
+  spec.email         = ['jonathan@armchairtheorist.com']
+  spec.summary       = 'Simple implementation of a configurable processing pipeline for sequential execution of reusable code components.'
+  spec.homepage      = 'http://github.com/armchairtheorist/simple_pipeline'
+  spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split("\n")
   spec.test_files    = `git ls-files -- {spec}/*`.split("\n")
-  spec.require_paths = ["lib"]
+  spec.require_paths = ['lib']
 
   spec.add_development_dependency 'rspec', '~> 0'
   spec.add_development_dependency 'rake', '~> 0'
