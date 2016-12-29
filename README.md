@@ -1,6 +1,7 @@
 [![Gem Version](https://badge.fury.io/rb/simple_pipeline.svg)](https://badge.fury.io/rb/simple_pipeline)
 [![Code Climate](https://codeclimate.com/github/armchairtheorist/simple_pipeline/badges/gpa.svg)](https://codeclimate.com/github/armchairtheorist/simple_pipeline)
 [![Build Status](https://travis-ci.org/armchairtheorist/simple_pipeline.svg?branch=master)](https://travis-ci.org/armchairtheorist/simple_pipeline)
+[![Coverage Status](https://coveralls.io/repos/github/armchairtheorist/simple_pipeline/badge.svg?branch=master)](https://coveralls.io/github/armchairtheorist/simple_pipeline?branch=master)
 
 # SimplePipeline
 
