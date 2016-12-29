@@ -43,9 +43,9 @@ A **pipe** can be any Ruby object that has a ```process``` method that accepts a
 
 ```ruby
 class Pipe1
-    def process (payload)
-        # Do something with the payload object
-    end
+  def process (payload)
+    # Do something with the payload object
+  end
 end
 ```
 
@@ -53,13 +53,13 @@ If your object does not have a ```process``` method, you can still use it as a p
 
 ```ruby
 class AlternatePipe
-    def execute (input)
-        # Do something with the input
-    end
+  def execute (input)
+    # Do something with the input
+  end
     
-    def invoke (param1, param2)
-        # Do something else
-    end
+  def invoke (param1, param2)
+    # Do something else
+  end
 end
 
 pipeline.add AlternativePipe.new, :process_method => :execute # => OK
@@ -75,16 +75,16 @@ The **payload** can be an Array, Hash, or any other Ruby object. Individual pipe
 
 ```ruby
 class ValidatedPipe
-    include SimplePipeline::Validation
+  include SimplePipeline::Validation
 
-    validate ->(x) { x[:a] }            # x[:a] must exist 
-    validate ->(x) { x[:b] == 1 }       # x[:b] must be equal to 1 
-    validate ->(x) { x[:c].nil? }       # x[:c] must not exist
-    validate ->(x) { x[:d][:e] < 5 }    # You can even do complex things like this
+  validate ->(x) { x[:a] }            # x[:a] must exist 
+  validate ->(x) { x[:b] == 1 }       # x[:b] must be equal to 1
+  validate ->(x) { x[:c].nil? }       # x[:c] must not exist
+  validate ->(x) { x[:d][:e] < 5 }    # You can even do complex things like this
 
-    def process (payload)
-        # Do something
-    end
+  def process (payload)
+    # Do something
+  end
 end
 
 pipeline = SimplePipeline.new
@@ -102,14 +102,14 @@ You can use the ```SimplePipeline::Timeout``` mixin to enforce a timeout value (
 
 ```ruby
 class TimeoutPipe
-    include SimplePipeline::Timeout
+  include SimplePipeline::Timeout
 
-    # Set the timeout value to be 3 seconds
-    set_timeout 3 
+  # Set the timeout value to be 3 seconds
+  set_timeout 3 
 
-    def process (payload)
-        # Do something
-    end
+  def process (payload)
+    # Do something
+  end
 end
 
 pipeline = SimplePipeline.new
@@ -168,7 +168,7 @@ After the pipeline finishes executing, you can call ```SimplePipeline#errors``` 
 pipeline.errors # => Array of errors caught during last run
 ```
 
-## Other Pipeline-Related Projects
+## Other Pipeline-Related Projects (for Ruby)
 
 * [PiecePipe](https://github.com/atomicobject/piece_pipe)
 * [Pipeline](https://github.com/dtsato/pipeline)
