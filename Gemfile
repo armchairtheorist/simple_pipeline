@@ -1,5 +1,4 @@
-source 'https://rubygems.org'
+source "http://rubygems.org"
 
-# Specify your gem's dependencies in simple_pipeline.gemspec
+# Specify your gem's dependencies in MetaInspector.gemspec
 gemspec
-rake
