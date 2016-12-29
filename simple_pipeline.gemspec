@@ -5,7 +5,7 @@ Gem::Specification.new do |spec|
   spec.version       = SimplePipeline::VERSION
   spec.authors       = ['Jonathan Wong']
   spec.email         = ['jonathan@armchairtheorist.com']
-  spec.summary       = 'Simple implementation of a configurable processing pipeline for sequential execution of reusable code components.'
+  spec.summary       = 'Simple framework for sequentially executing a series of reusable code components.'
   spec.homepage      = 'http://github.com/armchairtheorist/simple_pipeline'
   spec.license       = 'MIT'
 
