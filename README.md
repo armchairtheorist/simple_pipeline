@@ -179,6 +179,3 @@ pipeline.errors # => Array of errors caught during last run
 * [Linepipe](https://github.com/wimdu/linepipe)
 * [Banzai](https://github.com/dejan/banzai)
 * [CallChain](https://github.com/csquared/callchain)
-
-## License
-**SimplePipeline** is released under the [MIT license](MIT-LICENSE).
