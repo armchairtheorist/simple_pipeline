@@ -1,11 +1,11 @@
 require 'English'
 require 'timeout'
 
-class SimplePipeline
-  autoload :Timeout, 'simple_pipeline/timeout'
-  autoload :Validation, 'simple_pipeline/validation'
-  autoload :Version, 'simple_pipeline/version'
+require 'simple_pipeline/timeout'
+require 'simple_pipeline/validation'
+require 'simple_pipeline/version'
 
+class SimplePipeline
   attr_reader :errors
 
   def initialize
