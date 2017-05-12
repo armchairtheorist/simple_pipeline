@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'simple_pipeline'
 
 class TestPipe1
   def process(payload)
